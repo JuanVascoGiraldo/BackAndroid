@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quetzualandroid.Interfaces.API;
+import com.example.quetzualandroid.Models.Validar;
 import com.example.quetzualandroid.Models.mrespuesta;
 
 import java.util.Calendar;
@@ -26,7 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class rechazar extends AppCompatActivity {
 
-    String nombre, correo, fecha, genero, despre, fechapre, fechact;
+    String nombre, correo, fecha, genero, despre, fechapre, fechact, token;
     int id, idpre;
     TextView fechac, desp;
     EditText razon;
@@ -44,6 +45,7 @@ public class rechazar extends AppCompatActivity {
         idpre = getIntent().getIntExtra("idpre", 2);
         despre = getIntent().getStringExtra("despre");
         fechapre =getIntent().getStringExtra("fechapre");
+        token = getIntent().getStringExtra("token");
         Calendar fe = java.util.Calendar.getInstance();
         fechact=fe.get(java.util.Calendar.DATE) + "/"
                 + (fe.get(java.util.Calendar.MONTH)+1) + "/"
@@ -85,6 +87,7 @@ public class rechazar extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Preguntas Pendientes",Toast.LENGTH_SHORT).show();
         }
@@ -95,6 +98,7 @@ public class rechazar extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Ranking",Toast.LENGTH_SHORT).show();
         }
@@ -105,6 +109,7 @@ public class rechazar extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Cuenta",Toast.LENGTH_SHORT).show();
         }else if (idd == R.id.item4){
@@ -115,31 +120,33 @@ public class rechazar extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void reschazar(){
+    public void reschazar() {
         mrespuesta res = new mrespuesta();
         res.setId_pre(idpre);
         res.setId_usures(id);
         res.setFecha_res(fechact);
         res.setDes_res(razon.getText().toString());
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://basededatosandroid.herokuapp.com/quetzual/Doctor/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        API api = retrofit.create(API.class);
-        Call<ResponseBody> call = api.rechazar(res);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
-                    cancel();
+        if(conres(res.getDes_res())){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://apiquetzual.herokuapp.com/quetzual/Doctor/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            API api = retrofit.create(API.class);
+            Call<ResponseBody> call = api.rechazar(res, token);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        cancel();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     public void cancel(){
@@ -149,8 +156,17 @@ public class rechazar extends AppCompatActivity {
         i.putExtra("fecha", fecha);
         i.putExtra("nombre", nombre);
         i.putExtra("genero", genero);
+        i.putExtra("token", token);
         startActivity(i);
         Toast.makeText(this, "Preguntas Pendientes",Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean conres(String respuesta){
+        boolean seguir = Validar.Validarpregunta(respuesta);
+        if(!seguir){
+            Toast.makeText(this, "Ingresa Caracteres Validos en la respuesta",Toast.LENGTH_SHORT).show();
+        }
+        return seguir;
     }
 
 }

@@ -11,16 +11,16 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/fecha_pre"
-        android:layout_width="411dp"
+        android:id="@+id/textrank"
+        android:layout_width="match_parent"
         android:layout_height="97dp"
-        android:background="#FFCDD0"
+        android:background="@drawable/gradient"
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="center"
         android:text="Inicio"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textDirection="locale"
         android:textIsSelectable="false"
         android:textSize="34sp"
@@ -47,11 +47,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fecha_pre"
+        app:layout_constraintTop_toBottomOf="@+id/textrank"
         app:layout_constraintVertical_bias="0.121" />
 
     <TextView
-        android:id="@+id/nom"
+        android:id="@+id/accion"
         android:layout_width="290dp"
         android:layout_height="297dp"
         android:text="Hola doctor en esta aplicacion puede Responder Preguntas Pendientes, ver ranking y las preguntas que han sido respondidas por usted"

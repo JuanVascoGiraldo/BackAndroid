@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.quetzualandroid.Interfaces.API;
+import com.example.quetzualandroid.Models.Validar;
 import com.example.quetzualandroid.Models.mrespuesta;
 
 import java.util.Calendar;
@@ -27,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class responder extends AppCompatActivity {
 
-    String nombre, correo, fecha, genero,  despre, fechapre, fechact;
+    String nombre, correo, fecha, genero,  despre, fechapre, fechact, token;
     int id, idpre;
     TextView despres, fechactual;
     EditText respuesta;
@@ -46,6 +47,7 @@ public class responder extends AppCompatActivity {
         idpre = getIntent().getIntExtra("idpre", 2);
         despre = getIntent().getStringExtra("despre");
         fechapre =getIntent().getStringExtra("fechapre");
+        token = getIntent().getStringExtra("token");
         Calendar fe = java.util.Calendar.getInstance();
         fechact=fe.get(java.util.Calendar.DATE) + "/"
                 + (fe.get(java.util.Calendar.MONTH)+1) + "/"
@@ -93,6 +95,7 @@ public class responder extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Preguntas Pendientes",Toast.LENGTH_SHORT).show();
         }
@@ -103,6 +106,7 @@ public class responder extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Ranking",Toast.LENGTH_SHORT).show();
         }
@@ -113,6 +117,7 @@ public class responder extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Cuenta",Toast.LENGTH_SHORT).show();
         }else if (idd == R.id.item4){
@@ -129,46 +134,66 @@ public class responder extends AppCompatActivity {
         i.putExtra("correo", correo);
         i.putExtra("fecha", fecha);
         i.putExtra("nombre", nombre);
+        i.putExtra("token", token);
         i.putExtra("genero", genero);
         startActivity(i);
         Toast.makeText(this, "Preguntas Pendientes",Toast.LENGTH_SHORT).show();
     }
 
-    public void responder(){
+    public void responder() {
+        boolean seguir = true;
         mrespuesta res = new mrespuesta();
         res.setId_pre(idpre);
         res.setFecha_res(fechact);
         res.setDes_res(respuesta.getText().toString());
         res.setId_usures(id);
-        if(cat1.isChecked()){
+        if (cat1.isChecked()) {
             res.setId_cat(1);
-        }else if (cat2.isChecked()){
+        } else if (cat2.isChecked()) {
             res.setId_cat(2);
-        }else if (cat3.isChecked()){
+        } else if (cat3.isChecked()) {
             res.setId_cat(3);
-        }else if (cat4.isChecked()){
+        } else if (cat4.isChecked()) {
             res.setId_cat(4);
-        }else if (cat5.isChecked()){
+        } else if (cat5.isChecked()) {
             res.setId_cat(5);
+        } else {
+            seguir = false;
         }
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://basededatosandroid.herokuapp.com/quetzual/Doctor/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        API api = retrofit.create(API.class);
-        Call<ResponseBody> call = api.responder(res);
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
-                    cancel();
+
+        if (!seguir) {
+            Toast.makeText(this, "Elije una Clasificación", Toast.LENGTH_SHORT).show();
+        }
+
+        if(seguir && conres(res.getDes_res())){
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://apiquetzual.herokuapp.com/quetzual/Doctor/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            API api = retrofit.create(API.class);
+            Call<ResponseBody> call = api.responder(res, token);
+            call.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        cancel();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-            }
-        });
+                }
+            });
+        }
     }
+
+    private boolean conres(String respuesta){
+        boolean seguir = Validar.Validarpregunta(respuesta);
+        if(!seguir){
+            Toast.makeText(this, "Ingresa Caracteres Validos en la respuesta",Toast.LENGTH_SHORT).show();
+        }
+        return seguir;
+    }
+
 }

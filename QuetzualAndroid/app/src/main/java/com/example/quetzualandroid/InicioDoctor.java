@@ -14,7 +14,7 @@ import com.example.quetzualandroid.Models.usuario;
 
 public class InicioDoctor extends AppCompatActivity {
 
-    String nombre, correo, fecha, genero;
+    String nombre, correo, fecha, genero, token;
     int id;
     TextView text;
     @Override
@@ -26,7 +26,7 @@ public class InicioDoctor extends AppCompatActivity {
         correo = getIntent().getStringExtra("correo");
         fecha = getIntent().getStringExtra("fecha");
         genero = getIntent().getStringExtra("genero");
-        System.out.println(id);
+        token = getIntent().getStringExtra("token");
     }
 
     public boolean onCreateOptionsMenu(Menu menu){
@@ -43,6 +43,7 @@ public class InicioDoctor extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Preguntas Pendientes",Toast.LENGTH_SHORT).show();
         }
@@ -53,6 +54,7 @@ public class InicioDoctor extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Ranking",Toast.LENGTH_SHORT).show();
         }
@@ -63,6 +65,7 @@ public class InicioDoctor extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Cuenta",Toast.LENGTH_SHORT).show();
         }else if (idd == R.id.item4){

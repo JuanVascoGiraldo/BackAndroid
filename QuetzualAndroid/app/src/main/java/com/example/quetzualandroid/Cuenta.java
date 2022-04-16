@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class Cuenta extends AppCompatActivity {
 
-    String nombres, correos, fechas, generos;
+    String nombres, correos, fechas, generos, token;
     int id;
     TextView nombret, correot, fechat, generot;
     Button res, rech;
@@ -29,8 +29,9 @@ public class Cuenta extends AppCompatActivity {
         correos = getIntent().getStringExtra("correo");
         fechas = getIntent().getStringExtra("fecha");
         generos = getIntent().getStringExtra("genero");
+        token = getIntent().getStringExtra("token");
 
-        nombret = findViewById(R.id.nom);
+        nombret = findViewById(R.id.accion);
         correot = findViewById(R.id.email);
         fechat = findViewById(R.id.fechanac);
         generot = findViewById(R.id.genero);
@@ -76,6 +77,7 @@ public class Cuenta extends AppCompatActivity {
             i.putExtra("fecha", fechas);
             i.putExtra("nombre", nombres);
             i.putExtra("genero", generos);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Preguntas Pendientes",Toast.LENGTH_SHORT).show();
         }
@@ -86,6 +88,7 @@ public class Cuenta extends AppCompatActivity {
             i.putExtra("fecha", fechas);
             i.putExtra("nombre", nombres);
             i.putExtra("genero", generos);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Ranking",Toast.LENGTH_SHORT).show();
         }
@@ -96,6 +99,7 @@ public class Cuenta extends AppCompatActivity {
             i.putExtra("fecha", fechas);
             i.putExtra("nombre", nombres);
             i.putExtra("genero", generos);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Cuenta",Toast.LENGTH_SHORT).show();
         }else if (idd == R.id.item4){
@@ -113,6 +117,7 @@ public class Cuenta extends AppCompatActivity {
         i.putExtra("fecha", fechas);
         i.putExtra("nombre", nombres);
         i.putExtra("genero", generos);
+        i.putExtra("token", token);
         startActivity(i);
         Toast.makeText(this, "Preguntas Respondidas",Toast.LENGTH_SHORT).show();
     }
@@ -124,6 +129,7 @@ public class Cuenta extends AppCompatActivity {
         i.putExtra("fecha", fechas);
         i.putExtra("nombre", nombres);
         i.putExtra("genero", generos);
+        i.putExtra("token", token);
         startActivity(i);
         Toast.makeText(this, "Preguntas Rechazadas",Toast.LENGTH_SHORT).show();
     }

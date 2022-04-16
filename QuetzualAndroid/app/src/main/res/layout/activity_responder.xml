@@ -13,16 +13,16 @@
 
     <TextView
         android:id="@+id/textView22"
-        android:layout_width="411dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#C3BCF1"
+        android:background="@drawable/gradient"
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="center"
         android:soundEffectsEnabled="false"
         android:text="Responder pregunta"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textDirection="locale"
         android:textIsSelectable="false"
         android:textSize="34sp"
@@ -92,7 +92,7 @@
                 android:paddingTop="5sp"
                 android:paddingRight="15sp"
                 android:paddingBottom="5sp"
-                android:text="Etiam ac facilisis nisi, "
+                android:text="-"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="16sp" />
@@ -207,6 +207,7 @@
                 android:backgroundTint="#8BEEB7"
                 android:fontFamily="sans-serif-black"
                 android:text="Responder pregunta"
+                android:textColor="#000000"
                 android:textSize="14sp" />
         </TableRow>
 
@@ -226,6 +227,7 @@
                 android:fontFamily="sans-serif-black"
                 android:padding="10sp"
                 android:text="Cancelar"
+                android:textColor="#000000"
                 android:textSize="14sp" />
         </TableRow>
     </TableLayout>

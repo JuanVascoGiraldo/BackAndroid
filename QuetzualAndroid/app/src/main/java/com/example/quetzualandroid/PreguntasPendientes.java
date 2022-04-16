@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.example.quetzualandroid.Interfaces.API;
 import com.example.quetzualandroid.Models.mpregunta;
-import com.example.quetzualandroid.Models.usuario;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class PreguntasPendientes extends AppCompatActivity {
 
-    String nombre, correo, fecha, genero;
+    String nombre, correo, fecha, genero, token;
     int id;
     TextView fecha_pre, des_pre;
     Button seguir, atras, respre, rechapre;
@@ -41,13 +40,14 @@ public class PreguntasPendientes extends AppCompatActivity {
         correo = getIntent().getStringExtra("correo");
         fecha = getIntent().getStringExtra("fecha");
         genero = getIntent().getStringExtra("genero");
-        fecha_pre = findViewById(R.id.fecha_pre);
+        token = getIntent().getStringExtra("token");
+        fecha_pre = findViewById(R.id.textrank);
         des_pre = findViewById(R.id.des_pre);
         seguir = findViewById(R.id.seguir);
         atras = findViewById(R.id.atras);
         buscarpen();
         respre = findViewById(R.id.responderpre);
-        rechapre = findViewById(R.id.rechazarpre);
+        rechapre = findViewById(R.id.volversin);
 
 
         seguir.setOnClickListener(new View.OnClickListener(){
@@ -90,6 +90,7 @@ public class PreguntasPendientes extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Preguntas Pendientes",Toast.LENGTH_SHORT).show();
         }
@@ -100,6 +101,7 @@ public class PreguntasPendientes extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Ranking",Toast.LENGTH_SHORT).show();
         }
@@ -110,6 +112,7 @@ public class PreguntasPendientes extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Cuenta",Toast.LENGTH_SHORT).show();
         }else if (idd == R.id.item4){
@@ -122,11 +125,11 @@ public class PreguntasPendientes extends AppCompatActivity {
 
     public void buscarpen(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://basededatosandroid.herokuapp.com/quetzual/Doctor/")
+                .baseUrl("https://apiquetzual.herokuapp.com/quetzual/Doctor/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         API api = retrofit.create(API.class);
-        Call<List<mpregunta>> call = api.pendientes();
+        Call<List<mpregunta>> call = api.pendientes(token);
         call.enqueue(new Callback<List<mpregunta>>() {
             @Override
             public void onResponse(Call<List<mpregunta>> call, Response<List<mpregunta>> response) {
@@ -136,14 +139,31 @@ public class PreguntasPendientes extends AppCompatActivity {
                      mpregunta pre = pen.get(it);
                      fecha_pre.setText(pre.getFecha_pre());
                      des_pre.setText(pre.getDes_pre());
+                 }else{
+                     sin();
                  }
              }
             }
+
+
+
             @Override
             public void onFailure(Call<List<mpregunta>> call, Throwable t) {
 
             }
         });
+    }
+    private void sin() {
+        Intent i = new Intent(this, SinPregutasPendientes.class);
+        i.putExtra("id",  id);
+        i.putExtra("correo", correo);
+        i.putExtra("fecha", fecha);
+        i.putExtra("nombre", nombre);
+        i.putExtra("genero", genero);
+        i.putExtra("token", token);
+        i.putExtra("accion", 1);
+        startActivity(i);
+        Toast.makeText(this, "Sin Preguntas",Toast.LENGTH_SHORT).show();
     }
 
     public void seguir(){
@@ -173,6 +193,7 @@ public class PreguntasPendientes extends AppCompatActivity {
         i.putExtra("fecha", fecha);
         i.putExtra("nombre", nombre);
         i.putExtra("genero", genero);
+        i.putExtra("token", token);
         i.putExtra("idpre", pre.getId_pre());
         i.putExtra("despre", pre.getDes_pre());
         i.putExtra("fechapre", pre.getFecha_pre());
@@ -188,6 +209,7 @@ public class PreguntasPendientes extends AppCompatActivity {
         i.putExtra("fecha", fecha);
         i.putExtra("nombre", nombre);
         i.putExtra("genero", genero);
+        i.putExtra("token", token);
         i.putExtra("idpre", pre.getId_pre());
         i.putExtra("despre", pre.getDes_pre());
         i.putExtra("fechapre", pre.getFecha_pre());

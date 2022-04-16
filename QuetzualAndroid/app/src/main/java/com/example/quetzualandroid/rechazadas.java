@@ -26,7 +26,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class rechazadas extends AppCompatActivity {
 
-    String nombre, correo, fecha, genero;
+    String nombre, correo, fecha, genero, token;
     int id, it= 0;
     TextView fechar, prec, razonc;
     Button volver, seguir, atras;
@@ -40,6 +40,7 @@ public class rechazadas extends AppCompatActivity {
         correo = getIntent().getStringExtra("correo");
         fecha = getIntent().getStringExtra("fecha");
         genero = getIntent().getStringExtra("genero");
+        token = getIntent().getStringExtra("token");
 
         fechar = findViewById(R.id.fechapresrec);
         prec = findViewById(R.id.desprerec);
@@ -87,6 +88,7 @@ public class rechazadas extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Preguntas Pendientes",Toast.LENGTH_SHORT).show();
         }
@@ -97,6 +99,7 @@ public class rechazadas extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Ranking",Toast.LENGTH_SHORT).show();
         }
@@ -107,6 +110,7 @@ public class rechazadas extends AppCompatActivity {
             i.putExtra("fecha", fecha);
             i.putExtra("nombre", nombre);
             i.putExtra("genero", genero);
+            i.putExtra("token", token);
             startActivity(i);
             Toast.makeText(this, "Cuenta",Toast.LENGTH_SHORT).show();
         }else if (idd == R.id.item4){
@@ -119,11 +123,11 @@ public class rechazadas extends AppCompatActivity {
 
     public void buscarrec(){
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://basededatosandroid.herokuapp.com/quetzual/Doctor/")
+                .baseUrl("https://apiquetzual.herokuapp.com/quetzual/Doctor/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         API api = retrofit.create(API.class);
-        Call<List<publi>> call = api.rechazadas(id);
+        Call<List<publi>> call = api.rechazadas(token);
         call.enqueue(new Callback<List<publi>>() {
             @Override
             public void onResponse(Call<List<publi>> call, Response<List<publi>> response) {
@@ -135,6 +139,8 @@ public class rechazadas extends AppCompatActivity {
                         fechar.setText(pu.getFecha_res());
                         prec.setText(pu.getDes_pre());
                         razonc.setText(pu.getDes_res());
+                    }else{
+                        sin();
                     }
 
                 }
@@ -147,7 +153,18 @@ public class rechazadas extends AppCompatActivity {
         });
     }
 
-
+    private void sin() {
+        Intent i = new Intent(this, SinPregutasPendientes.class);
+        i.putExtra("id",  id);
+        i.putExtra("correo", correo);
+        i.putExtra("fecha", fecha);
+        i.putExtra("nombre", nombre);
+        i.putExtra("genero", genero);
+        i.putExtra("token", token);
+        i.putExtra("accion", 3);
+        startActivity(i);
+        Toast.makeText(this, "Sin Preguntas",Toast.LENGTH_SHORT).show();
+    }
 
     public void seguir(){
         int size = recha.size()-1;
@@ -177,6 +194,7 @@ public class rechazadas extends AppCompatActivity {
         i.putExtra("fecha", fecha);
         i.putExtra("nombre", nombre);
         i.putExtra("genero", genero);
+        i.putExtra("token", token);
         startActivity(i);
         Toast.makeText(this, "Cuenta",Toast.LENGTH_SHORT).show();
     }

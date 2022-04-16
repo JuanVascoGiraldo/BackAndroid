@@ -1,7 +1,7 @@
 package com.example.quetzualandroid.Models;
 
-public class usuario {
-    String nom_usu, fecha_nac, email_usu, contra_usu, status;
+public class usuario implements Comparable<usuario>{
+    String nom_usu, fecha_nac, email_usu, contra_usu, status, token;
     int id_usu, id_gen, cant_punt;
 
     public String getNom_usu() {
@@ -66,5 +66,24 @@ public class usuario {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    @Override
+    public int compareTo(usuario o) {
+        if (cant_punt < o.cant_punt) {
+            return -1;
+        }
+        if (cant_punt > o.cant_punt) {
+            return 1;
+        }
+        return 0;
     }
 }

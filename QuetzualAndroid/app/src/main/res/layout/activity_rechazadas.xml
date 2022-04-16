@@ -13,9 +13,9 @@
 
     <TextView
         android:id="@+id/textView22"
-        android:layout_width="411dp"
+        android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#AC2727"
+        android:background="@drawable/gradient"
         android:fontFamily="sans-serif-smallcaps"
         android:gravity="center"
         android:soundEffectsEnabled="false"
@@ -54,7 +54,7 @@
                 android:fontFamily="sans-serif-smallcaps"
                 android:gravity="center"
                 android:soundEffectsEnabled="false"
-                android:text="22/09/2021"
+                android:text="-"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="#FFFFFF"
@@ -95,7 +95,7 @@
                 android:paddingTop="5sp"
                 android:paddingRight="15sp"
                 android:paddingBottom="5sp"
-                android:text="Etiam ac facilisis nisi, quis cursus dolor. Integer vestibulum, mi sit amet consequat ultrices, est libero tincidunt nisl, ac pellentesque nisi mi at turpis. Mauris ut lorem temporurna.?"
+                android:text="-"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="16sp" />
@@ -131,7 +131,7 @@
                 android:paddingTop="5sp"
                 android:paddingRight="15sp"
                 android:paddingBottom="5sp"
-                android:text="Etiam ac facilisis nisi, quis cursus dolor. Integer vestibulum, mi sit amet consequat ultrices, est libero tincidunt nisl, ac pellentesque nisi mi at turpis. Mauris ut lorem tempor, convallis arcu viverra, porta urna.?"
+                android:text="-"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="16sp" />
@@ -148,6 +148,7 @@
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="140dp"
                 android:backgroundTint="#8BEEB7"
+                android:textColor="#000000"
                 android:text="Seguir" />
         </TableRow>
 
@@ -162,6 +163,7 @@
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="140dp"
                 android:backgroundTint="#8BEEB7"
+                android:textColor="#000000"
                 android:text="Atras" />
         </TableRow>
 
@@ -176,6 +178,7 @@
                 android:layout_marginLeft="100dp"
                 android:layout_marginRight="140dp"
                 android:backgroundTint="#8BEEB7"
+                android:textColor="#000000"
                 android:text="Volver" />
         </TableRow>
     </TableLayout>
